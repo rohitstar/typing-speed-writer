@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+// import Typewriter from './component/typewriter'
+import TypingSpeed from './component/typingSpeed/typing-speed'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="type">
+        {/* <Typewriter
+          text="A wonderful serenity has taken possession of my entire soul like these
+         mornings of spring which I enjoy with my whole heart I am alone
+        and feel the charm of existence in this spot which was created for the
+        bliss of souls like mine I am so happy my dear friend so absorbed in
+        the exquisite sense of mere tranquil existence that I neglect my
+        talents I should be incapable of drawing a single stroke at the present
+        moment and yet I feel that I never was a greater artist than now When
+        while the lovely"
+        /> */}
+
+        <TypingSpeed />
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

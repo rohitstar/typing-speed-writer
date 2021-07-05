@@ -1,0 +1,334 @@
+import './typewriter.css'
+
+function Typewriter() {
+
+    
+
+  return (
+    <div className="text-container">
+      <p>
+        A wonderful serenity has taken possession of my entire soul, like these
+        sweet mornings of spring which I enjoy with my whole heart. I am alone,
+        and feel the charm of existence in this spot, which was created for the
+        bliss of souls like mine. I am so happy, my dear friend, so absorbed in
+        the exquisite sense of mere tranquil existence, that I neglect my
+        talents. I should be incapable of drawing a single stroke at the present
+        moment; and yet I feel that I never was a greater artist than now. When,
+        while the lovely
+      </p>
+    </div>
+  )
+}
+
+export default Typewriter
+
+
+
+
+
+
+
+
+//////////////////////???????????????????????///////////////////
+
+
+// import './typewriter.css'
+// import TypeWriter from 'react-typewriter'
+
+// function Typewriter() {
+//   return (
+//     <div className="text-container">
+//       <TypeWriter typing={1}>
+//         A wonderful serenity has taken possession of my entire soul, like these
+//         sweet mornings of spring which I enjoy with my whole heart. I am alone,
+//         and feel the charm of existence in this spot, which was created for the
+//         bliss of souls like mine. I am so happy, my dear friend, so absorbed in
+//         the exquisite sense of mere tranquil existence, that I neglect my
+//         talents. I should be incapable of drawing a single stroke at the present
+//         moment; and yet I feel that I never was a greater artist than now. When,
+//         while the lovely
+//       </TypeWriter>
+//     </div>
+//   )
+// }
+
+// export default Typewriter
+
+import React, { useState, useEffect } from 'react'
+const words = ['Developer', 'Programmer.']
+
+export default function Home() {
+  const [index, setIndex] = useState(0)
+  const [subIndex, setSubIndex] = useState(0)
+  const [blink, setBlink] = useState(true)
+  const [reverse, setReverse] = useState(false)
+
+  // typeWriter
+  useEffect(() => {
+    if (index === words.length) return
+
+    if (
+      subIndex === words[index].length + 1 &&
+      index !== words.length - 1 &&
+      !reverse
+    ) {
+      setReverse(true)
+      return
+    }
+
+    if (subIndex === 0 && reverse) {
+      setReverse(false)
+      setIndex((prev) => prev + 1)
+      return
+    }
+
+    const timeout = setTimeout(() => {
+      setSubIndex((prev) => prev + (reverse ? -1 : 1))
+    }, Math.max(reverse ? 75 : subIndex === words[index].length ? 1000 : 150, parseInt(Math.random() * 350)))
+
+    return () => clearTimeout(timeout)
+  }, [subIndex, index, reverse])
+
+  // blinker
+  useEffect(() => {
+    const timeout2 = setTimeout(() => {
+      setBlink((prev) => !prev)
+    }, 500)
+    return () => clearTimeout(timeout2)
+  }, [blink])
+
+  return (
+    <>
+      <h1>
+        The {`${words[index].substring(0, subIndex)}${blink ? '|' : ' '}`}
+      </h1>
+    </>
+  )
+}
+
+
+
+/////////////??????????>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<?????????///////
+
+
+import React, { useState, useEffect, useRef } from 'react'
+import './typing-speed.css'
+
+function Timer(props) {
+  const [timeEl, setTimeEl] = useState(0)
+
+  useEffect(() => {
+    if (props.startCounted) {
+      setInterval(() => {
+        setTimeEl((oldTime) => oldTime + 1)
+      }, 100)
+    }
+  }, [props.startCounted])
+
+  return <p>timer : {timeEl}</p>
+}
+
+function TypingSpeed() {
+  const [textData, setTextData] = useState()
+  //   const [item, setItem] = useState(0)
+  const [startCounting, setStartCounting] = useState(false)
+
+  const getInputChangeHandler = (e) => {
+    setTextData(e.target.value)
+    if (!startCounting) {
+      setStartCounting(true)
+    }
+  }
+
+  //   useEffect(() => {
+  //     setTimeout(() => {
+  //       setItem((prev) => prev + 1)
+  //     }, 1000)
+  //   }, [item])
+
+  return (
+    <div className="text-container">
+      <Timer startCounted={startCounting} />
+      {/* Timer : {item} */}
+      <p>{textData}</p>
+      <input onChange={getInputChangeHandler} type="text" />
+    </div>
+  )
+}
+
+export default TypingSpeed
+
+
+
+///???///???////////////???????????///????///?????/\
+
+
+import React, { useState, useEffect, useRef } from 'react'
+import './typing-speed.css'
+
+// mango papaya apple banana orange java react react native boostrap html css typing speed data
+const text = () =>
+  `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+   Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+   laboris nisi ut aliquip ex ea commodo consequat. Duis aute 
+   irure dolor in reprehenderit in voluptate velit esse cillum
+    dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
+    cupidatat non proident, sunt in culpa qui officia deserunt 
+    mollit anim id est laborum.`.split(' ')
+// .sort(() => (Math.random() > 0.5 ? 1 : -1))
+
+function Counter(props) {
+  const [timeEl, setTimeEl] = useState(0)
+  const { startCounted, correctWords, completed } = props
+  //   const [completedTime, setCompletedTime] = useState(false)
+
+  useEffect(() => {
+    let countId
+
+    if (startCounted) {
+      countId = setInterval(() => {
+        if (timeEl < 60) {
+          setTimeEl((oldTime) => oldTime + 1)
+          console.log(timeEl)
+          //   if (!completedTime) {
+          //     setCompletedTime(true)
+          //     console.log(completedTime)
+          //   }
+        }
+      }, 1000)
+    }
+
+    return () => {
+      clearInterval(countId)
+    }
+  }, [startCounted, timeEl, completed])
+
+  const wordMinutes = timeEl / 60
+  const WordChar = correctWords
+  //   const WordChar = correctWords / 5
+
+  return (
+    <div className="result">
+      <p className="time">
+        <b>Time : </b>
+        {timeEl}
+      </p>
+      {/* <p className="completeTime">{completedTime}</p> */}
+      <p className="speed">
+        <b>Speed : </b>
+        {(WordChar / wordMinutes || 0).toFixed(2)} WPM
+      </p>
+    </div>
+  )
+}
+
+function WordChange(props) {
+  const { texted, active, correct } = props
+
+  if (correct === true) {
+    return <span className="correct">{texted} </span>
+  }
+
+  if (correct === false) {
+    return <span className="incorrect">{texted} </span>
+  }
+
+  if (active) {
+    return <span className="active">{texted} </span>
+  }
+
+  return <span>{texted} </span>
+}
+
+WordChange = React.memo(WordChange)
+
+function TypingSpeed() {
+  const [Input, setInput] = useState('')
+  const writingText = useRef(text())
+
+  const [startCounting, setStartCounting] = useState(false)
+  const [activeWord, setActiveWord] = useState(0)
+  const [correctWord, setCorrectWord] = useState([])
+  const [completed, setCompleted] = useState(true)
+
+  //   console.log(writingText.current)
+
+  function getInputChangeHandler(value) {
+    if (activeWord === writingText.current.length) {
+      return
+    }
+
+    if (!startCounting) {
+      setStartCounting(true)
+      setCompleted(true)
+    }
+
+    if (value.endsWith(' ')) {
+      if (activeWord === writingText.current.length - 1) {
+        setStartCounting(false)
+        setCompleted(false)
+      } else {
+        setInput('')
+      }
+
+      //   if ()
+
+      setActiveWord((idx) => idx + 1)
+     
+
+      setCorrectWord((data) => {
+        const word = value.trim()
+        const newResult = [...data]
+        newResult[activeWord] = word === writingText.current[activeWord]
+        return newResult
+      })
+    } else {
+      setInput(value)
+    }
+  }
+
+  return (
+    <div className="text-container">
+      <Counter
+        startCounted={startCounting}
+        correctWords={correctWord.filter(Boolean).length}
+        completed={completed}
+      />
+
+      <div>
+        <h1 className="heading">Typing Master</h1>
+
+        <div className="text">
+          {writingText.current.map((text, index) => {
+            //   if (index === activeWord) {
+            //     return <b>{text} </b>
+            //   }
+            return (
+              <WordChange
+                texted={text}
+                active={index === activeWord}
+                correct={correctWord[index]}
+                //   incorrect={false}
+              />
+            )
+          })}
+          {completed ? (
+            <input
+              className="input"
+              placeholder="Start Typing......"
+              onChange={(e) => getInputChangeHandler(e.target.value)}
+              type="text"
+              value={Input}
+            />
+          ) : (
+            <div>
+              <h1 className="time-over">Time Over</h1>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default TypingSpeed
