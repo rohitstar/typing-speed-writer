@@ -40,17 +40,17 @@ function TypingSpeed() {
   const [activeWord, setActiveWord] = useState(0)
   const [correctWord, setCorrectWord] = useState([])
   const [completed, setCompleted] = useState(true)
-  const [timeEl, setTimeEl] = useState(0)
   //   console.log(writingText.current)
 
-  function Counter() {
-    // const { startCounted, correctWords, completed } = props
+  function Counter(startCounted) {
+    const [timeEl, setTimeEl] = useState(0)
+    // const { startCounted, correctWords } = props
     //   const [completedTime, setCompletedTime] = useState(false)
 
     useEffect(() => {
       let countId
 
-      if (startCounting) {
+      if (startCounted) {
         countId = setInterval(() => {
           if (timeEl < 60) {
             setTimeEl((oldTime) => oldTime + 1)
@@ -64,7 +64,7 @@ function TypingSpeed() {
       return () => {
         clearInterval(countId)
       }
-    }, [startCounting, timeEl])
+    }, [startCounted, timeEl])
 
     const wordMinutes = timeEl / 60
     const WordChar = correctWord.filter(Boolean).length
@@ -124,7 +124,7 @@ function TypingSpeed() {
         correctWords={correctWord.filter(Boolean).length}
         completed={completed}
       /> */}
-      {Counter()}
+      {Counter(startCounting)}
 
       <div>
         <h1 className="heading">Typing Master</h1>
